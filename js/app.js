@@ -1,18 +1,24 @@
-var list= [];
+let lists = [];
 var li=$('.card');
 for ( let x=0; x<16; x++){
-
-  list.push(li.children()[x].className);
-  console.log(list);
+  lists.push(li.children()[x].className);
 }
+//select();
+function resetBoard(){
+  var newShuf = [];
+  newShuf=shuffle(lists);
 
-var repeat= $('fa-repeat');
 
-repeat.on('click', shuffle($('li')));
+  for(let c=0; c<lists.length; c++){
+    let deck = li.children()[c];
+    li[c].innerHTML='<i class="'+lists[c]+'"></i>';
+  }
+}
+resetBoard();
+select();
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
-
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -20,10 +26,69 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
+$('.fa-repeat').on('click', function(){
+  resetBoard();
+  select();
+});
 
+function select(){
+  flipOver();
+  match();
+};
+
+function flipOver(){
+  $('.card').on('click', function(event){
+    //alert("ha");
+    $(event.target).addClass("open show");
+  });
+}
+
+function flipBack(){
+  $('.card').on('click', function(event){
+    //alert("ha");
+    $(event.target).removeClass("open show");
+  });
+}
+
+var memoryAr= [];
+
+function match(){
+  
+
+}
+
+
+
+/*function match(){
+  $('.card').on('click', function(event){
+    //alert("ha");
+    var x=$(event.target).children();
+    console.log(x);
+
+    if(memoryAr.length<2){
+      var firstCard = x.find('i').className;
+      //memoryAr.push(firstCard);
+      //console.log(firstCard);
+      if(memoryAr.length==2){
+        if (memoryAr[1]==memoryAr[0]){
+          memoryAr[0,1].addClass("match").removeClass("open show");
+        }
+        else{
+          memoryAr[0,1].removeClass("open show");
+          console.log("fail");
+        }
+      }
+    }
+  });
+}
+
+/*for (let list of lists){
+  on('click', function(){
+    alert('clicked');
+  });
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 
