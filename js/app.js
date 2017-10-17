@@ -55,21 +55,22 @@ function flipBack(){
 }
 
 var openCards=0;
-var memoryAr= [];
 var newM;
+var moves=1;
+var memoryAr= [];
 function match(){
   //setTimeout(flipBack, 700);
   flipOver();
   $('.card').on('click', function(event){
     flipOver();
-    if (memoryAr.length<2){
+    if (memoryAr.length==0){
       newM= $(event.target).children();
       var clname= newM.attr('class');
       memoryAr.push(clname);
       var firstCard= document.getElementsByClassName(memoryAr[0]);
     }
-    else if (memoryAr.length==2){
-      newM= $(event.target).children();
+    else if (memoryAr.length==1){
+      newN= $(event.target).children();
       var clname= newM.attr('class');
       memoryAr.push(clname);
       console.log(memoryAr);
@@ -88,6 +89,11 @@ function match(){
       }
     }
   });
+  moves++;
+  if(moves == 20){
+    $('.stars').last().empty();
+    console.log("hi");
+  }
 }
 
 
