@@ -4,16 +4,16 @@ for ( let x=0; x<16; x++){
   lists.push(li.children()[x].className);
 }
 //select();
+
 function resetBoard(){
   var newShuf = [];
   newShuf=shuffle(lists);
-
-
   for(let c=0; c<lists.length; c++){
     let deck = li.children()[c];
     li[c].innerHTML='<i class="'+lists[c]+'"></i>';
   }
 }
+
 resetBoard();
 select();
 
@@ -34,8 +34,10 @@ $('.fa-repeat').on('click', function(){
 });
 
 function select(){
-  flipOver();
+
+
   match();
+  //setTimeout(flipOver,2000);
 };
 
 function flipOver(){
@@ -48,15 +50,44 @@ function flipOver(){
 function flipBack(){
   $('.card').on('click', function(event){
     //alert("ha");
-    $(event.target).removeClass("open show");
+    $('li').removeClass("open show");
   });
 }
 
+var openCards=0;
 var memoryAr= [];
-
+var newM;
 function match(){
-  
-
+  //setTimeout(flipBack, 700);
+  flipOver();
+  $('.card').on('click', function(event){
+    flipOver();
+    if (memoryAr.length<2){
+      newM= $(event.target).children();
+      var clname= newM.attr('class');
+      memoryAr.push(clname);
+      var firstCard= document.getElementsByClassName(memoryAr[0]);
+    }
+    else if (memoryAr.length==2){
+      newM= $(event.target).children();
+      var clname= newM.attr('class');
+      memoryAr.push(clname);
+      console.log(memoryAr);
+      if(memoryAr[0]==memoryAr[1]){
+        memoryAr[0,1].removeClass("open show");
+        memoryAr[0,1].addClass("match");
+        openCards += 2;
+        if(openCards ==16)
+        {
+          alert("Game Over!");
+        }
+      }
+      else{
+        setTimeout(flipBack, 700);
+        memoryAr.length=0;
+      }
+    }
+  });
 }
 
 
